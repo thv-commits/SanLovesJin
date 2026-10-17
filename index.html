@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <!-- Política de referencia requerida por YouTube para evitar el Error 153 -->
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>Siete paradas hasta ti — Para Jin</title>
+
+  <!-- Tipografía cursiva caligráfica romántica (Great Vibes) y sans-serif sutil para botones (Montserrat) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Tipografía principal: clásica, limpia y formal */
+      --font-body: 'Times New Roman', Times, Baskerville, Georgia, serif;
+      /* Tipografía caligráfica romántica y delicada */
+      --font-script: 'Great Vibes', 'Allura', cursive;
+      /* Tipografía complementaria para etiquetas técnicas y botones */
+      --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+      --vh: 1vh;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: #faf6f0;
+      color: #3e322d;
+      min-height: 100vh;
+      min-height: calc(var(--vh, 1vh) * 100);
+      overflow-x: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      transition: background 0.7s ease, color 0.7s ease;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Contenedor central móvil */
+    #app-container {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      min-height: calc(var(--vh, 1vh) * 100);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 90px;
+      overflow-x: hidden;
+    }
+
+    /* Fondo animado con partículas flotantes */
+    .bg-particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+      opacity: 0.65;
+    }
+
+    .particle {
+      position: absolute;
+      opacity: 0.45;
+      animation: floatSlow 14s infinite ease-in-out;
+      fill: currentColor;
+    }
+
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+      50% { transform: translateY(-16px) rotate(8deg) scale(1.05); }
+    }
+
+    /* Contenido de cada vista */
+    .view-section {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 24px 20px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Barra superior de navegación y progreso */
+    .top-progress-bar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.85;
+      padding-top: 4px;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: inherit;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .back-btn:active {
+      transform: scale(0.9);
+      opacity: 0.7;
+    }
+
+    .progress-indicators {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .prog-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.3;
+      transition: all 0.4s ease;
+    }
+
+    .prog-dot.active {
+      width: 22px;
+      border-radius: 6px;
+      opacity: 0.85;
+    }
+
+    /* Ornamento y encabezado de parada */
+    .stop-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
+    .stop-top-ornament {
+      font-size: 15px;
+      opacity: 0.7;
+    }
+
+    .stop-number-label {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0.8;
+      margin-top: 2px;
+    }
+
+    .song-title {
+      font-family: var(--font-script);
+      font-size: 46px;
+      font-weight: 400;
+      text-align: center;
+      line-height: 1.2;
+      margin: 4px 0 0;
+      letter-spacing: 0.5px;
+    }
+
+    .song-artist {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 17px;
+      text-align: center;
+      opacity: 0.85;
+      margin-bottom: 24px;
+      letter-spacing: 0.3px;
+    }
+
+    /* Círculo central concéntrico con emblema */
+    .emblem-wrapper {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin: 10px auto 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .emblem-ring-outer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 1px dashed currentColor;
+      opacity: 0.28;
+      animation: rotateSlow 40s linear infinite;
+    }
+
+    .emblem-ring-inner {
+      position: absolute;
+      width: 78%;
+      height: 78%;
+      border-radius: 50%;
+      border: 1px solid currentColor;
+      opacity: 0.35;
+    }
+
+    .emblem-icon {
+      font-size: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.08));
+    }
+
+    .emblem-icon svg {
+      display: block;
+    }
+
+    @keyframes rotateSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Frase en letra cursiva romántica */
+    .romantic-quote {
+      font-family: var(--font-script);
+      font-size: 36px;
+      font-weight: 400;
+      line-height: 1.25;
+      text-align: center;
+      margin: 10px 0 18px;
+      padding: 0 10px;
+      color: inherit;
+    }
+
+    /* Párrafo de dedicatoria de San */
+    .dedication-card {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 20px;
+      padding: 22px 24px;
+      margin-bottom: 26px;
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
+    }
+
+    .dedication-text {
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.8;
+      text-align: center;
+      white-space: pre-line;
+      color: inherit;
+      letter-spacing: 0.2px;
+    }
+
+    /* Reproductor de YouTube */
+    .player-card {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 20px 16px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      margin-top: 4px;
+      overflow: hidden;
+    }
+
+    .player-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 30px 10px;
+      color: inherit;
+      opacity: 0.7;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .player-placeholder svg {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+    }
+
+    .iframe-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      background: #000;
+    }
+
+    .iframe-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .yt-direct-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      margin-top: 12px;
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: inherit;
+      opacity: 0.75;
+      text-decoration: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .yt-direct-btn:hover {
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+
+    /* Galería de inspiración (Parada 7) */
+    .gallery-title-box {
+      text-align: center;
+      margin: 28px 0 16px;
+    }
+
+    .gallery-heading {
+      font-family: var(--font-script);
+      font-size: 38px;
+      font-weight: 400;
+      margin-bottom: 4px;
+      line-height: 1.2;
+    }
+
+    .horizontal-scroll-gallery {
+      display: flex;
+      gap: 16px;
+      width: 100%;
+      overflow-x: auto;
+      padding: 10px 4px 20px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      justify-content: flex-start;
+    }
+
+    .horizontal-scroll-gallery::-webkit-scrollbar {
+      display: none;
+    }
+
+    .gallery-card {
+      flex: 0 0 240px;
+      scroll-snap-align: center;
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+      background-color: #f1e9e2;
+    }
+
+    .gallery-card-content {
+      padding: 15px 16px;
+      text-align: left;
+    }
+
+    .gallery-card-title {
+      font-family: var(--font-body);
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #3e322d;
+    }
+
+    .gallery-card-desc {
+      font-family: var(--font-body);
+      font-size: 14px;
+      opacity: 0.85;
+      line-height: 1.55;
+    }
+
+    /* Carta Final de San (Parada 7) */
+    .final-letter-card {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 26px;
+      padding: 30px 24px;
+      margin: 30px 0 34px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      text-align: left;
+    }
+
+    .letter-salutation {
+      font-family: var(--font-script);
+      font-size: 42px;
+      color: #9f5b66;
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+
+    .letter-body {
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.85;
+      color: #3b2c28;
+      margin-bottom: 24px;
+      letter-spacing: 0.2px;
+      white-space: pre-line;
+    }
+
+    .letter-signature {
+      font-family: var(--font-script);
+      font-size: 38px;
+      text-align: right;
+      color: #9f5b66;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .letter-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      opacity: 0.35;
+      font-size: 13px;
+    }
+
+    .letter-divider::before,
+    .letter-divider::after {
+      content: "";
+      height: 1px;
+      width: 60px;
+      background: currentColor;
+    }
+
+    /* La Gran Pregunta de Matrimonio */
+    .proposal-section {
+      text-align: center;
+      margin: 10px 0 24px;
+      padding: 0 10px;
+    }
+
+    .proposal-question-line1 {
+      font-family: var(--font-script);
+      font-size: 30px;
+      line-height: 1.35;
+      color: #663d43;
+      margin-bottom: 14px;
+      display: block;
+      padding: 0 6px;
+    }
+
+    .proposal-question-line2 {
+      font-family: var(--font-script);
+      font-size: 44px;
+      line-height: 1.2;
+      color: #9f5b66;
+      display: block;
+      margin-bottom: 30px;
+      filter: drop-shadow(0 2px 10px rgba(163,93,104,0.18));
+    }
+
+    .proposal-buttons-container {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .proposal-choice-btn {
+      flex: 1;
+      max-width: 175px;
+      padding: 14px 18px;
+      border: none;
+      border-radius: 999px;
+      background: #c37d89;
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      box-shadow: 0 6px 18px rgba(195, 125, 137, 0.4);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .proposal-choice-btn:active {
+      transform: scale(0.95);
+      background: #b16d79;
+    }
+
+    /* Botón flotante inferior derecho */
+    .floating-nav-container {
+      position: fixed;
+      bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+      right: 20px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-pill-btn {
+      padding: 13px 22px;
+      border: none;
+      border-radius: 999px;
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16);
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+      user-select: none;
+    }
+
+    .nav-pill-btn:active {
+      transform: scale(0.93);
+    }
+
+    /* Microanimación de corazones */
+    .flying-heart {
+      position: fixed;
+      pointer-events: none;
+      font-size: 18px;
+      z-index: 9999;
+      animation: flyUp 1.2s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    @keyframes flyUp {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(0.6) rotate(0deg);
+      }
+      50% {
+        opacity: 0.9;
+        transform: translate(var(--tx), -60px) scale(1.2) rotate(var(--rot));
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(var(--tx) * 1.5), -120px) scale(0.9) rotate(calc(var(--rot) * 1.5));
+      }
+    }
+
+    /* Pantalla de bienvenida */
+    .welcome-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      min-height: 80vh;
+      justify-content: center;
+      padding: 30px 18px;
+    }
+
+    .welcome-greeting {
+      font-family: var(--font-script);
+      font-size: 44px;
+      color: #9f5b66;
+      margin-bottom: 4px;
+      line-height: 1.2;
+    }
+
+    .welcome-main-title {
+      font-family: var(--font-script);
+      font-size: 52px;
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 22px;
+      letter-spacing: 0.5px;
+    }
+
+    .welcome-card-box {
+      background: rgba(255, 255, 255, 0.65);
+      border-radius: 24px;
+      padding: 24px 22px;
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.04);
+      margin-bottom: 30px;
+    }
+
+    .welcome-invitation-text {
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.85;
+      color: #4a3832;
+      white-space: pre-line;
+      text-align: center;
+      letter-spacing: 0.2px;
+    }
+
+    /* Pantalla de Celebración («¡Dijiste que sí, mi Jin! ♡») */
+    .celebration-view {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 40px 18px 40px;
+    }
+
+    .celebration-title {
+      font-family: var(--font-script);
+      font-size: 52px;
+      color: #9f5b66;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .celebration-card-box {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 26px;
+      padding: 28px 22px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.04);
+      margin-bottom: 30px;
+    }
+
+    .celebration-text {
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.85;
+      color: #3e302b;
+      margin-bottom: 22px;
+      text-align: center;
+      letter-spacing: 0.2px;
+      white-space: pre-line;
+    }
+
+    .celebration-quote {
+      font-family: var(--font-script);
+      font-size: 34px;
+      line-height: 1.3;
+      color: #9f5b66;
+      margin: 20px 0 16px;
+      text-align: center;
+    }
+
+    .celebration-signature {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 17px;
+      color: #5a423d;
+      text-align: center;
+      letter-spacing: 0.3px;
+    }
+
+    .celebration-btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .celebration-outline-btn {
+      width: 100%;
+      padding: 13px 20px;
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: inherit;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .celebration-outline-btn:active {
+      transform: scale(0.96);
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .celebration-row-btns {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .celebration-row-btns .celebration-outline-btn {
+      flex: 1;
+    }
+
+    /* Confetti y pétalos de celebración */
+    .confetti-piece {
+      position: fixed;
+      width: 8px;
+      height: 12px;
+      pointer-events: none;
+      z-index: 9999;
+      animation: fallDown 3.5s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    @keyframes fallDown {
+      0% {
+        opacity: 1;
+        transform: translateY(-20px) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(105vh) rotate(720deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Partículas decorativas de fondo -->
+  <div class="bg-particles" id="particles-root"></div>
+
+  <!-- Contenedor móvil -->
+  <div id="app-container">
+    <main id="main-content"></main>
+
+    <!-- Botón flotante inferior de avance -->
+    <div class="floating-nav-container" id="floating-nav"></div>
+  </div>
+
+  <script>
+    /* ========================================================================
+       CONFIGURACIÓN CENTRALIZADA: DEDICATORIAS COMPLETAS Y PERSONALIZADAS
+       ======================================================================== */
+    const CONFIG = {
+      // Pantalla Inicial (Bienvenida)
+      welcome: {
+        greeting: "Para Jin",
+        title: "Siete paradas hasta ti",
+        text: `Este sendero de rosas y flores comenzó hace ya una semana. Han sido días en los que he buscado mil maneras de amarte, hacerte sonreír y demostrarte que quiero ser esa persona con la que elijas compartir toda tu vida.
+
+Por eso, amor mío, te invito a revivir este pequeño viaje, a recorrer cada canción y recordar cada dedicatoria que preparé para ti, para tu corazón y para ese ser tan maravilloso que eres.
+
+¿Volvemos a recorrerlo juntos, mi amor?`,
+        buttonText: "COMENZAR ♡",
+        palette: {
+          bg: "linear-gradient(180deg, #fceee9 0%, #f7dfd9 50%, #fdece7 100%)",
+          color: "#4e3532",
+          btnBg: "#be7985",
+          btnColor: "#ffffff"
+        }
+      },
+
+      // Las 7 Paradas
+      stops: [
+        {
+          index: 1,
+          title: "10,000 Hours",
+          artist: "Jungkook (versión)",
+          emblem: "✦",
+          quote: "Conocerte, cada día un poco más",
+          dedication: `Durante este tiempo he descubierto tantas cosas de ti, he conocido tus sonrisas, tus ocurrencias, tus sueños y esas pequeñas partes de ti que te hacen ser quien eres. He encontrado respuestas a muchas de mis preguntas, pero también nuevas razones para seguir descubriéndote. Y si antes deseaba conocer cada rincón de tu corazón, ahora que he tenido la oportunidad de hacerlo, solo puedo decirte que cada detalle, cada conversación y cada momento compartido me han hecho enamorarme aún más de ti. Porque, después de todas estas horas, no solo te conozco un poquito mejor, me he enamorado de ti de mil maneras diferentes, y todavía me quedan toda una vida y diez mil horas más para seguir haciéndolo. 💗`,
+          youtubeUrl: "https://youtu.be/6u8dr7j5Cs0?si=ndaCkKl6-sJzO1GF",
+          palette: {
+            bg: "linear-gradient(180deg, #fbf7ee 0%, #f6edd9 50%, #fef8ee 100%)",
+            color: "#473b2a",
+            btnBg: "#c99e58",
+            btnColor: "#ffffff"
+          }
+        },
+        {
+          index: 2,
+          title: "Inmortal",
+          artist: "Aventura",
+          emblem: "❦",
+          quote: "Un amor que no cabe en palabras",
+          dedication: `Mi vida, te amo con una intensidad que a veces ni yo mismo sé explicar. Lo que siento por ti es sólido como un meteorito, inmenso e inquebrantable, y aunque quizás nadie más pueda entenderlo, quiero que tú lo sientas en cada palabra, cada abrazo y cada sueño que construyamos juntos. Porque, entre todas las posibilidades que existen en este universo, mi corazón siempre encuentra el camino hacia ti, y si pudiera elegirte una y mil veces, volvería a hacerlo en cada una de ellas.`,
+          youtubeUrl: "https://youtu.be/XlmaJ-yU46U?si=S7gS40XNqBhaA5_4",
+          palette: {
+            bg: "linear-gradient(180deg, #3d1b24 0%, #4f212c 50%, #30131b 100%)",
+            color: "#f6dede",
+            btnBg: "#f29fa9",
+            btnColor: "#421822"
+          }
+        },
+        {
+          index: 3,
+          title: "MAGIA",
+          artist: "Sebastián Yatra y Andrés Cepeda",
+          emblem: "✧",
+          quote: "Y de pronto, todo cambió",
+          dedication: `Jin, estar contigo sigue sintiéndose como esa magia que me atrapó desde el principio. La encuentro en tus ojos, en nuestros coqueteos, en los besos que siempre me dejan queriendo más y en esas conversaciones que nunca parecen tener final. Me encanta que todavía consigas ponerme nervioso y que, incluso ahora, tenga tantas ganas de conquistarte como el primer día. Quiero seguir descubriendo nuevas formas de hacerte sonreír, robarte besos y recordarte cuánto me encantas. Porque, mi amor, si algo tengo claro es que quiero que esa magia nos acompañe durante toda nuestra vida, mientras sigo jodiéndote la vida, coqueteándote y enamorándome de ti hasta que seamos viejitos.`,
+          youtubeUrl: "https://youtu.be/_n1o4D6G_XE?si=qQ4WhO7NrLYBaeGE",
+          palette: {
+            bg: "linear-gradient(180deg, #fbf0f8 0%, #f3deee 50%, #fcecf7 100%)",
+            color: "#492d42",
+            btnBg: "#b870a0",
+            btnColor: "#ffffff"
+          }
+        },
+        {
+          index: 4,
+          title: "Rewrite the Stars",
+          artist: "Anne-Marie & James Arthur",
+          emblem: "🌙",
+          quote: "Elegirte, contra todo pronóstico",
+          dedication: `Mi amor, pase lo que pase y por muchos caminos distintos que la vida intente ponernos delante, siempre encontraré la manera de volver a tu lado. Porque no importa cuántas veces cambie el destino nuestros planes, yo seguiré eligiéndote, buscando la forma de encontrarte y escribiendo contigo nuestra propia historia. Si las estrellas dejan de estar a nuestro favor, dibujaremos unas nuevas, porque mi lugar favorito en cualquier futuro siempre será junto a ti, mi Jin.`,
+          youtubeUrl: "https://youtu.be/pRfmrE0ToTo?si=5A48t2uL8Z4rbR5f",
+          palette: {
+            bg: "linear-gradient(180deg, #10162e 0%, #171d3a 50%, #0d1226 100%)",
+            color: "#e8ebf8",
+            btnBg: "#d8b471",
+            btnColor: "#171d3a"
+          }
+        },
+        {
+          index: 5,
+          title: "Blueberry Eyes",
+          artist: "MAX",
+          emblem: `<svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`,
+          quote: "Despertar a tu lado",
+          dedication: `Mi amor, tú eres mi rayo de sol, esa luz que llegó a mi vida para llenar de sentido mis días y hacerlos mucho más bonitos. Estoy tan enamorado de tus ojos, de tu sonrisa y de cada pequeño detalle que te hace ser tú, mi Jinnie. Sueño con el día en que pueda despertar entre tus brazos, contemplar tus ojitos somnolientos y besarte cada mañana, sin tener que imaginar cómo sería compartir esos momentos contigo. Quiero que seas mi primer beso de cada mañana y mi lugar favorito al que volver, todos los días de mi vida. Te amo, mi precioso.`,
+          youtubeUrl: "https://youtu.be/TzFRVk2ektI?si=Pl-XxJQxVoe4xn_E",
+          palette: {
+            bg: "linear-gradient(180deg, #edf4fd 0%, #dce8fa 50%, #f2f7fe 100%)",
+            color: "#283b54",
+            btnBg: "#5c87bf",
+            btnColor: "#ffffff"
+          }
+        },
+        {
+          index: 6,
+          title: "Por Primera Vez",
+          artist: "Camilo y Evaluna Montaner",
+          emblem: "🏠",
+          quote: "Elegirte una y mil veces",
+          dedication: `Mi amor, sueño con las mañanas en las que pueda despertar a tu lado, contemplar tus bellos ojos y besarte, sintiendo que, por primera vez, el cielo duerme conmigo. Contigo, el futuro me emociona; quiero construir un hogar, compartir mil años más y enamorarme una y otra vez de cada versión de ti, mientras tú descubres todas las mías. Si pudiera volver en el tiempo, te buscaría mucho antes para amarte desde siempre. Y ahora que nuestro recorrido de siete días está por terminar, hay algo que deseo más que cualquier otra cosa: volver a nacer contigo y seguir eligiéndote en esta vida y en todas las que vengan. Así que espérame, mi Jin, porque mañana quiero demostrarte, una vez más, cuánto te amo.`,
+          youtubeUrl: "https://youtu.be/YwodhCjFbQ8?si=zpb-L-H5LGW2FCzR",
+          palette: {
+            bg: "linear-gradient(180deg, #fff3ee 0%, #fbe3dc 50%, #fef3ef 100%)",
+            color: "#4b342e",
+            btnBg: "#c9827c",
+            btnColor: "#ffffff"
+          }
+        },
+        {
+          index: 7,
+          title: "Volví a Nacer",
+          artist: "Carlos Vives",
+          youtubeUrl: "https://youtu.be/CJ_zRSv3Hr8?si=TblrVS_UVPWofCSs",
+          /* Los tres apartados completos */
+          gallery: [
+            {
+              title: "La decoración de nuestro momento",
+              desc: "Cada vela, cada flor y cada destello de luz pensados con todo mi amor para envolver el instante más esperado de nuestras vidas.",
+              imgUrl: "decoracion.jpg",
+              fallback: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+              title: "El anillo",
+              desc: "Una promesa delicada, brillante e infinita pensada exclusivamente para ti y para nuestro para siempre.",
+              imgUrl: "anillo.jpg",
+              fallback: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=700&q=80"
+            },
+            {
+              title: "El traje que llevaré para ti",
+              desc: "Elegido con el corazón, queriendo verme especial y a la altura del hombre más maravilloso del mundo en nuestro gran día.",
+              imgUrl: "traje-san.jpg",
+              fallback: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=700&q=80"
+            }
+          ],
+          letter: {
+            salutation: "Mi Jin,",
+            body: `Mi amor, antes de ti mi vida era un desastre, pero llegaste para sacarme de aquella oscuridad y devolverme las ganas de creer en el amor y en un juntos para siempre. Por ti volví a nacer, y ahora quiero dejar mi pasado atrás para construir un futuro a tu lado, casarme contigo y recorrer el mundo tomados de la mano. Te aprecio más de lo que imaginas y quiero quedarme contigo para siempre, convertirme en esa persona que te haga feliz y nunca dejar de elegirte. No quiero que seamos solamente dos mitades que se encontraron, sino una única pieza, dos vidas que deciden caminar juntas. Quiero amarte otras diez mil horas, conservar nuestra magia y dibujar contigo nuestras propias estrellas cada día de nuestro matrimonio. Esta jornada de siete días termina aquí, mi Jin, pero quiero que sea el comienzo de nuestra historia más bonita: nuestro hogar, nuestros sueños y nuestro para siempre. Así que, mi amor, déjame amarte por el resto de nuestras vidas.`,
+            signature: "— San"
+          },
+          proposal: {
+            line1: "¿me concederías el honor de convertirme en tu esposo y escribir conmigo el resto de nuestra historia?",
+            line2: "Jin, ¿quieres casarte conmigo?",
+            btnYes: "SÍ",
+            btnOfCourse: "CLARO QUE SÍ"
+          },
+          palette: {
+            bg: "linear-gradient(180deg, #fff4ef 0%, #fbe0d8 50%, #fdeee9 100%)",
+            color: "#45312d",
+            btnBg: "#be7381",
+            btnColor: "#ffffff"
+          }
+        }
+      ],
+
+      // Pantalla de Celebración Final
+      celebration: {
+        title: "¡Dijiste que sí, mi Jin! ♡",
+        message: `Mi amor, no sabes lo feliz que me hace saber que quieres caminar conmigo hacia ese futuro que tantas veces imaginé a tu lado. Hoy no termina nuestra historia ni comienza una vida perfecta; hoy damos un paso más hacia nuestro para siempre. Quiero seguir enamorándote, cumplir cada promesa y construir contigo ese hogar con el que soñamos, hasta que llegue el día en que pueda mirarte a los ojos y llamarte mi esposo.`,
+        quote: "«Por ahora, mi prometido; para siempre, mi elección».",
+        signature: "Con todo mi amor, tu San",
+        readLetterBtn: "VOLVER A LEER LA CARTA",
+        shareBtn: "COMPARTIR",
+        restartBtn: "RECORRER DE NUEVO",
+        palette: {
+          bg: "linear-gradient(180deg, #fcefe9 0%, #fbd5cb 50%, #fbe8e2 100%)",
+          color: "#4c322f",
+          btnColor: "#a75f6e"
+        }
+      }
+    };
+
+    /* ========================================================================
+       LÓGICA DEL RECORRIDO Y NAVEGACIÓN
+       ======================================================================== */
+    let currentStep = 0; // 0 = bienvenida, 1..7 = paradas, 8 = celebración
+
+    function setMobileHeight() {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    window.addEventListener('resize', setMobileHeight);
+    setMobileHeight();
+
+    // Renderizado del reproductor de YouTube protegido contra Error 153
+    function renderYouTube(url) {
+      if (!url || url.trim() === "") {
+        return `
+          <div class="player-card">
+            <div class="player-placeholder">
+              <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+              <span>[ENLACE DE YOUTUBE PENDIENTE]</span>
+            </div>
+          </div>
+        `;
+      }
+
+      let videoId = "";
+      if (url.includes("youtu.be/")) {
+        videoId = url.split("youtu.be/")[1].split("?")[0].split("&")[0];
+      } else if (url.includes("watch?v=")) {
+        videoId = url.split("watch?v=")[1].split("&")[0];
+      } else if (url.includes("embed/")) {
+        videoId = url.split("embed/")[1].split("?")[0].split("&")[0];
+      } else {
+        videoId = url.trim();
+      }
+
+      return `
+        <div class="player-card">
+          <div class="iframe-wrapper">
+            <iframe 
+              src="https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1" 
+              title="Reproductor" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              allowfullscreen 
+              referrerpolicy="strict-origin-when-cross-origin">
+            </iframe>
+          </div>
+          <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank" rel="noopener noreferrer" class="yt-direct-btn">
+            Escuchar canción en YouTube ↗
+          </a>
+        </div>
+      `;
+    }
+
+    // Microanimación de corazones al hacer click
+    function spawnHearts(e) {
+      const x = e ? e.clientX : window.innerWidth - 70;
+      const y = e ? e.clientY : window.innerHeight - 50;
+
+      const symbols = ["♡", "♥", "🌸", "✧"];
+      for (let i = 0; i < 6; i++) {
+        const heart = document.createElement("div");
+        heart.className = "flying-heart";
+        heart.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+        heart.style.left = `${x}px`;
+        heart.style.top = `${y}px`;
+        heart.style.setProperty("--tx", `${(Math.random() - 0.5) * 80}px`);
+        heart.style.setProperty("--rot", `${(Math.random() - 0.5) * 60}deg`);
+        heart.style.color = currentStep === 2 || currentStep === 4 ? "#f8b7c2" : "#be7381";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 1200);
+      }
+    }
+
+    // Lluvia de confeti y pétalos de celebración
+    function triggerCelebration() {
+      const colors = ["#ffc0cb", "#e8a0bf", "#f5d372", "#ffffff", "#d87093"];
+      for (let i = 0; i < 70; i++) {
+        setTimeout(() => {
+          const piece = document.createElement("div");
+          piece.className = "confetti-piece";
+          piece.style.left = `${Math.random() * 100}vw`;
+          piece.style.top = `-20px`;
+          piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          piece.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+          piece.style.animationDuration = `${2.5 + Math.random() * 2}s`;
+          document.body.appendChild(piece);
+          setTimeout(() => piece.remove(), 4500);
+        }, i * 30);
+      }
+    }
+
+    // Renderizado principal
+    function render() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      const main = document.getElementById("main-content");
+      const nav = document.getElementById("floating-nav");
+
+      // CASO 1: PANTALLA DE BIENVENIDA
+      if (currentStep === 0) {
+        const w = CONFIG.welcome;
+        document.body.style.background = w.palette.bg;
+        document.body.style.color = w.palette.color;
+
+        main.innerHTML = `
+          <div class="view-section welcome-container">
+            <span class="welcome-greeting">${w.greeting}</span>
+            <h1 class="welcome-main-title">${w.title}</h1>
+            <div class="welcome-card-box">
+              <p class="welcome-invitation-text">${w.text}</p>
+            </div>
+          </div>
+        `;
+
+        nav.innerHTML = `
+          <button class="nav-pill-btn" style="background: ${w.palette.btnBg}; color: ${w.palette.btnColor};" onclick="nextStep(event)">
+            ${w.buttonText}
+          </button>
+        `;
+        return;
+      }
+
+      // CASO 2: PANTALLA DE CELEBRACIÓN FINAL («¡Dijiste que sí, mi Jin! ♡»)
+      if (currentStep === 8) {
+        const c = CONFIG.celebration;
+        document.body.style.background = c.palette.bg;
+        document.body.style.color = c.palette.color;
+
+        main.innerHTML = `
+          <div class="view-section celebration-view">
+            <h1 class="celebration-title">${c.title}</h1>
+            <div class="celebration-card-box">
+              <p class="celebration-text">${c.message}</p>
+              <div class="celebration-quote">${c.quote}</div>
+              <div class="celebration-signature">${c.signature}</div>
+            </div>
+            <div class="celebration-btn-group">
+              <button class="celebration-outline-btn" onclick="goToStep(7)">${c.readLetterBtn}</button>
+              <div class="celebration-row-btns">
+                <button class="celebration-outline-btn" onclick="shareWebsite()">${c.shareBtn}</button>
+                <button class="celebration-outline-btn" onclick="goToStep(0)">${c.restartBtn}</button>
+              </div>
+            </div>
+          </div>
+        `;
+        nav.innerHTML = "";
+        return;
+      }
+
+      // CASO 3: PARADAS DE LA 1 A LA 7
+      const stop = CONFIG.stops[currentStep - 1];
+      document.body.style.background = stop.palette.bg;
+      document.body.style.color = stop.palette.color;
+
+      // Barra de progreso y botón de retroceso
+      const dotsHtml = [1, 2, 3, 4, 5, 6, 7]
+        .map(i => `<div class="prog-dot ${i === currentStep ? 'active' : ''}"></div>`)
+        .join('');
+
+      const topBarHtml = `
+        <div class="top-progress-bar">
+          <button class="back-btn" onclick="prevStep()" aria-label="Volver">←</button>
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <span>PARADA ${stop.index} DE 7</span>
+            <div class="progress-indicators">${dotsHtml}</div>
+          </div>
+          <div style="width: 28px;"></div>
+        </div>
+      `;
+
+      // Si es la Parada 7 (La Propuesta)
+      if (stop.index === 7) {
+        const galleryItemsHtml = stop.gallery.map(item => `
+          <div class="gallery-card">
+            <img src="${item.imgUrl}" alt="${item.title}" loading="lazy" onerror="if(this.src!=='${item.fallback}')this.src='${item.fallback}';" />
+            <div class="gallery-card-content">
+              <div class="gallery-card-title">${item.title}</div>
+              <div class="gallery-card-desc">${item.desc}</div>
+            </div>
+          </div>
+        `).join('');
+
+        main.innerHTML = `
+          <div class="view-section">
+            ${topBarHtml}
+            <div class="stop-badge">
+              <span class="stop-top-ornament">❦</span>
+              <span class="stop-number-label">PARADA 7</span>
+            </div>
+            <h1 class="song-title">${stop.title}</h1>
+            <div class="song-artist">${stop.artist}</div>
+
+            ${renderYouTube(stop.youtubeUrl)}
+
+            <div class="gallery-title-box">
+              <h2 class="gallery-heading">Así imagino ese momento</h2>
+            </div>
+
+            <div class="horizontal-scroll-gallery">
+              ${galleryItemsHtml}
+            </div>
+
+            <div class="final-letter-card">
+              <div class="letter-salutation">${stop.letter.salutation}</div>
+              <p class="letter-body">${stop.letter.body}</p>
+              <div class="letter-signature">${stop.letter.signature}</div>
+              <div class="letter-divider">♡</div>
+            </div>
+
+            <div class="proposal-section">
+              <span class="proposal-question-line1">${stop.proposal.line1}</span>
+              <span class="proposal-question-line2">${stop.proposal.line2}</span>
+              <div class="proposal-buttons-container">
+                <button class="proposal-choice-btn" onclick="acceptProposal(event)">${stop.proposal.btnYes}</button>
+                <button class="proposal-choice-btn" onclick="acceptProposal(event)">${stop.proposal.btnOfCourse}</button>
+              </div>
+            </div>
+          </div>
+        `;
+        nav.innerHTML = "";
+        return;
+      }
+
+      // Paradas de la 1 a la 6
+      const buttonLabel = stop.index === 6 ? "ÚLTIMA PARADA ♡" : "CONTINUAR ♡";
+
+      main.innerHTML = `
+        <div class="view-section">
+          ${topBarHtml}
+          <div class="stop-badge">
+            <span class="stop-top-ornament">✦</span>
+            <span class="stop-number-label">PARADA ${stop.index}</span>
+          </div>
+          <h1 class="song-title">${stop.title}</h1>
+          <div class="song-artist">${stop.artist}</div>
+
+          <div class="emblem-wrapper">
+            <div class="emblem-ring-outer"></div>
+            <div class="emblem-ring-inner"></div>
+            <div class="emblem-icon">${stop.emblem}</div>
+          </div>
+
+          <h2 class="romantic-quote">${stop.quote}</h2>
+
+          <div class="dedication-card">
+            <p class="dedication-text">${stop.dedication}</p>
+          </div>
+
+          ${renderYouTube(stop.youtubeUrl)}
+        </div>
+      `;
+
+      nav.innerHTML = `
+        <button class="nav-pill-btn" style="background: ${stop.palette.btnBg}; color: ${stop.palette.btnColor};" onclick="nextStep(event)">
+          ${buttonLabel}
+        </button>
+      `;
+    }
+
+    function nextStep(e) {
+      spawnHearts(e);
+      if (currentStep < 7) {
+        currentStep++;
+        render();
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 0) {
+        currentStep--;
+        render();
+      }
+    }
+
+    function goToStep(step) {
+      currentStep = step;
+      render();
+    }
+
+    function acceptProposal(e) {
+      spawnHearts(e);
+      triggerCelebration();
+      setTimeout(() => {
+        currentStep = 8;
+        render();
+      }, 700);
+    }
+
+    function shareWebsite() {
+      if (navigator.share) {
+        navigator.share({
+          title: "Siete paradas hasta ti",
+          text: "Una historia de amor en siete canciones...",
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          alert("¡Enlace copiado al portapapeles!");
+        });
+      }
+    }
+
+    // Inicializar la vista
+    render();
+  </script>
+</body>
+</html>
